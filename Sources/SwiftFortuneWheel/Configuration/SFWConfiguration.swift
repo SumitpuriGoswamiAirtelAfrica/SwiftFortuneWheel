@@ -104,15 +104,28 @@ public extension SFWConfiguration {
         /// Stroke color
         public var strokeColor: SFWColor = .black
         
+        
+        /// Stroke width
+        public var innerStrokeWidth: CGFloat = 1
+        
+        /// Stroke color
+        public var innerStrokeColor: SFWColor = .black.withAlphaComponent(0.2)
+        
         /// Initiates a circle preferences
         /// - Parameters:
         ///   - strokeWidth: Stroke width, default value is `1`
         ///   - strokeColor: Stroke color, default value is `.black`
         public init(strokeWidth: CGFloat = 1,
-                    strokeColor: SFWColor = .black) {
+                    strokeColor: SFWColor = .black,
+                    innerStrokeWidth: CGFloat = 1,
+                    innersStrokeColor: SFWColor = .black.withAlphaComponent(0.2)) {
             self.strokeWidth = strokeWidth
             self.strokeColor = strokeColor
+            self.innerStrokeColor = innersStrokeColor
+            self.innerStrokeWidth = innerStrokeWidth
         }
+        
+        
     }
 }
 
