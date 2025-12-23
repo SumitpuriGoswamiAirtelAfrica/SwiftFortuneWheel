@@ -110,17 +110,19 @@ class WheelLayer: CALayer {
         circleFrame.lineWidth = preferences?.circlePreferences.strokeWidth ?? 0
         circleFrame.stroke()
         
-        //// Frame drawing
-        var innerFram = frame
-        let innerStrokeWidth = preferences?.circlePreferences.innerStrokeWidth ?? 0
-        innerFram.size.width -= innerStrokeWidth*2
-        innerFram.origin.x += innerStrokeWidth
-        innerFram.origin.y += innerStrokeWidth
-        innerFram.size.height -= innerStrokeWidth*2
-        let innerCircleFrame = UIBezierPath(ovalIn: innerFram)
-        preferences?.circlePreferences.innerStrokeColor.setStroke()
-        innerCircleFrame.lineWidth = innerStrokeWidth
-        innerCircleFrame.stroke()
+        if preferences?.circlePreferences.enabledCustomSpinAndWin ?? false {
+            //// Frame drawing
+            var innerFram = frame
+            let innerStrokeWidth = preferences?.circlePreferences.innerStrokeWidth ?? 0
+            innerFram.size.width -= innerStrokeWidth*2
+            innerFram.origin.x += innerStrokeWidth
+            innerFram.origin.y += innerStrokeWidth
+            innerFram.size.height -= innerStrokeWidth*2
+            let innerCircleFrame = UIBezierPath(ovalIn: innerFram)
+            preferences?.circlePreferences.innerStrokeColor.setStroke()
+            innerCircleFrame.lineWidth = innerStrokeWidth
+            innerCircleFrame.stroke()
+        }
         
         // Optional, draws image anchor for each slice, located at the wheel's border
         if let imageAnchor = preferences?.imageAnchor {
@@ -140,8 +142,9 @@ class WheelLayer: CALayer {
         
         // Optional, draws image anchor for each slice, located at the center of wheel's border
         if let imageAnchor = preferences?.centerImageAnchor {
-            let sliceDegree: CGFloat = 10
-            let slicesCount = 40
+            let enabledCustomSpinAndWin = preferences?.circlePreferences.enabledCustomSpinAndWin ?? false
+            let sliceDegree: CGFloat = enabledCustomSpinAndWin ? 10 : sliceDegree
+            let slicesCount = enabledCustomSpinAndWin ? 40 : slices.count
             var _rotation: CGFloat = -sliceDegree + startPositionOffsetDegree
             for index in 0..<slicesCount {
                 _rotation += sliceDegree

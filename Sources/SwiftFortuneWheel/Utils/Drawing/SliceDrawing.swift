@@ -96,6 +96,7 @@ extension SliceDrawing {
                                margins: margins)
                 topOffset += preferences.preferredSize.height + preferences.verticalOffset
             case .image(let image, let preferences):
+                let image = image ?? preferences.defaultImage
                 self.drawImage(in: context,
                                image: image,
                                preferences: preferences,

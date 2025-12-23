@@ -48,7 +48,7 @@ extension Slice {
     /// Slice content type, currently image or text
     public enum ContentType {
         case assetImage(name: String, preferences: ImagePreferences)
-        case image(image: SFWImage, preferences: ImagePreferences)
+        case image(image: SFWImage?, preferences: ImagePreferences)
         case text(text: String, preferences: TextPreferences)
         case line(preferences: LinePreferences)
     }

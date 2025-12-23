@@ -108,6 +108,9 @@ public extension SFWConfiguration {
         /// Stroke width
         public var innerStrokeWidth: CGFloat = 1
         
+        // Custom code flag
+        public var enabledCustomSpinAndWin: Bool = false
+        
         /// Stroke color
         public var innerStrokeColor: SFWColor = .black.withAlphaComponent(0.2)
         
@@ -115,17 +118,20 @@ public extension SFWConfiguration {
         /// - Parameters:
         ///   - strokeWidth: Stroke width, default value is `1`
         ///   - strokeColor: Stroke color, default value is `.black`
+        ///   - innerStrokeWidth: Stroke width, default value is `1`
+        ///   - innerStrokeColor: Stroke color, default value is `.clear`
+        ///   - enabledCustomSpinAndWin: Enabled new custom logic, default value is `false`
         public init(strokeWidth: CGFloat = 1,
                     strokeColor: SFWColor = .black,
                     innerStrokeWidth: CGFloat = 1,
-                    innersStrokeColor: SFWColor = .black.withAlphaComponent(0.2)) {
+                    innersStrokeColor: SFWColor = .clear,
+                    enabledCustomSpinAndWin: Bool = false) {
             self.strokeWidth = strokeWidth
             self.strokeColor = strokeColor
             self.innerStrokeColor = innersStrokeColor
             self.innerStrokeWidth = innerStrokeWidth
+            self.enabledCustomSpinAndWin = enabledCustomSpinAndWin
         }
-        
-        
     }
 }
 

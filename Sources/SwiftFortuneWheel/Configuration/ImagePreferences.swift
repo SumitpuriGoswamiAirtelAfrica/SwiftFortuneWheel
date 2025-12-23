@@ -35,13 +35,21 @@ public struct ImagePreferences {
     /// Tint color, `optional`
     public var tintColor: SFWColor? = nil
     
+    public var defaultImage: SFWImage
+    
+    public var imageUrl: String
+    
     /// Initiates a image preferences
     /// - Parameters:
     ///   - preferredSize: Prefered image size, required
     ///   - verticalOffset: Vertical offset in slice from the center, default value is `0`
     public init(preferredSize: CGSize,
-                verticalOffset: CGFloat = 0) {
+                verticalOffset: CGFloat = 0,
+                defaultImage: SFWImage,
+                imageUrl: String) {
         self.preferredSize = preferredSize
         self.verticalOffset = verticalOffset
+        self.defaultImage = defaultImage
+        self.imageUrl = imageUrl
     }
 }
