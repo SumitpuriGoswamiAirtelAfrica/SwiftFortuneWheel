@@ -112,6 +112,13 @@ public class SwiftFortuneWheel: SFWControl {
         }
     }
     
+    /// Spin button image name from assets catalog
+    private var _spinButtonImage: UIImage? {
+        didSet {
+            spinButton?.image(icon: _spinButtonImage)
+        }
+    }
+    
     /// Spin button background image from assets catalog
     private var _spinButtonBackgroundImageName: String? {
         didSet {
@@ -244,7 +251,11 @@ public class SwiftFortuneWheel: SFWControl {
             #else
             self.spinButton?.setTitle(self.spinTitle, for: .normal)
             #endif
-            self.spinButton?.image(name: self._spinButtonImageName)
+            if let imageName = self._spinButtonImageName, imageName.isEmpty, self._spinButtonImage != nil {
+                self.spinButton?.image(icon: self._spinButtonImage)
+            } else {
+                self.spinButton?.image(name: self._spinButtonImageName)
+            }
             self.spinButton?.backgroundImage(name: self._spinButtonBackgroundImageName)
         }
         spinButton?.configure(with: spinButtonPreferences)
@@ -570,6 +581,12 @@ public extension SwiftFortuneWheel {
     @IBInspectable var spinImage: String? {
         set { _spinButtonImageName = newValue }
         get { return _spinButtonImageName }
+    }
+    
+    /// Spin button image name from assets catalog, sets image to the `spinButton`
+    @IBInspectable var spinCenterImage: UIImage? {
+        set { _spinButtonImage = newValue }
+        get { return _spinButtonImage }
     }
     
     #if !os(macOS)

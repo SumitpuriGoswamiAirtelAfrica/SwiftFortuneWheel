@@ -97,6 +97,24 @@ extension SpinButton {
         #endif
     }
     
+    /// Updates spin button image
+    /// - Parameter image: Image from backend
+    func image(icon: UIImage?) {
+        guard let image = icon else {
+            #if os(macOS)
+            self.setImage(nil)
+            #else
+            self.setImage(nil, for: .normal)
+            #endif
+            return
+        }
+        #if os(macOS)
+        self.setImage(image)
+        #else
+        self.setImage(image, for: .normal)
+        #endif
+    }
+    
     /// Updates spin button background image
     /// - Parameter name: Image name from assets catalog
     func backgroundImage(name: String?) {
