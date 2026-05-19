@@ -367,6 +367,9 @@ public extension SFWConfiguration {
         /// Tint color, `optional`
         public var tintColor: SFWColor? = nil
         
+        /// gradient Colors, `optional`
+        public var gradientColors: [String]? = nil
+        
         /// Initiates a anchor image object
         /// - Parameters:
         ///   - imageName: Image name from assets catalog

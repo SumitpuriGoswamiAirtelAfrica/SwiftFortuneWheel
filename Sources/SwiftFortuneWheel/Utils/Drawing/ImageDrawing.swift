@@ -80,7 +80,14 @@ extension ImageDrawing {
         // Coordinate now start from center
         context.translateBy(x: rotationOffset, y: rotationOffset)
         
-        guard var image = SFWImage(named: imageAnchor.imageName) else {
+        var image: UIImage?
+        if let newImage = SFWImage(named: imageAnchor.imageName) {
+            image = newImage
+        } else if let colors = imageAnchor.gradientColors {
+            image = gradientImage(colors: colors.map({UIColor(hex: $0)}), frame: CGRect(origin: CGPoint(x: 0, y: 0), size: imageAnchor.size))
+        }
+        
+        guard var image = image else {
             context.restoreGState()
             return
         }
@@ -109,5 +116,48 @@ extension ImageDrawing {
         context.restoreGState()
         context.restoreGState()
     }
+
+    func gradientImage(
+        colors: [UIColor],
+        frame: CGRect,
+        startPoint: CGPoint = CGPoint(x: 0.5, y: 0.0),
+        endPoint: CGPoint = CGPoint(x: 0.5, y: 1.0)
+    ) -> UIImage {
+        
+        let gradientLayer = CAGradientLayer()
+        gradientLayer.frame = CGRect(origin: .zero, size: frame.size)
+        gradientLayer.colors = colors.map { $0.cgColor }
+        gradientLayer.startPoint = startPoint
+        gradientLayer.endPoint = endPoint
+        
+        let renderer = UIGraphicsImageRenderer(size: frame.size)
+        
+        return renderer.image { context in
+            
+            let rect = CGRect(origin: .zero, size: frame.size)
+            
+            // Make circular clipping path
+            let circlePath = UIBezierPath(ovalIn: rect)
+            circlePath.addClip()
+            
+            // Draw gradient inside circle
+            gradientLayer.render(in: context.cgContext)
+        }
+    }
     
+}
+
+
+extension UIColor {
+    convenience init(hex: String) {
+        let hex = hex.trimmingCharacters(in: CharacterSet.alphanumerics.inverted)
+        var int: UInt64 = 0
+        Scanner(string: hex).scanHexInt64(&int)
+
+        let r = Double((int >> 16) & 0xff) / 255
+        let g = Double((int >> 8) & 0xff) / 255
+        let b = Double(int & 0xff) / 255
+
+        self.init(red: r, green: g, blue: b, alpha: 1)
+    }
 }
