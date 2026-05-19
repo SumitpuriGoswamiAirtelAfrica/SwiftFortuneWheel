@@ -82,6 +82,12 @@ class WheelLayer: CALayer {
         //// General Declarations
         let context = UIGraphicsGetCurrentContext()!
         
+        var image: UIImage?
+        
+        if let colors = preferences?.imageAnchor.gradientColors {
+            image = gradientImage(colors: colors.map({UIColor(hex: $0)}), frame: CGRect(origin: CGPoint(x: 0, y: 0), size: imageAnchor.size))
+        }
+        
         //// Main Group
         context.saveGState()
         context.beginTransparencyLayer(auxiliaryInfo: nil)
@@ -136,7 +142,8 @@ class WheelLayer: CALayer {
                                      index: index,
                                      radius: radius,
                                      sliceDegree: sliceDegree,
-                                     rotationOffset: rotationOffset)
+                                     rotationOffset: rotationOffset,
+                                     gradientImage: image)
             }
         }
         
@@ -161,6 +168,34 @@ class WheelLayer: CALayer {
         
         context.endTransparencyLayer()
         context.restoreGState()
+    }
+    
+    func gradientImage(
+        colors: [UIColor],
+        frame: CGRect,
+        startPoint: CGPoint = CGPoint(x: 0.5, y: 0.0),
+        endPoint: CGPoint = CGPoint(x: 0.5, y: 1.0)
+    ) -> UIImage {
+        
+        let gradientLayer = CAGradientLayer()
+        gradientLayer.frame = CGRect(origin: .zero, size: frame.size)
+        gradientLayer.colors = colors.map { $0.cgColor }
+        gradientLayer.startPoint = startPoint
+        gradientLayer.endPoint = endPoint
+        
+        let renderer = UIGraphicsImageRenderer(size: frame.size)
+        
+        return renderer.image { context in
+            
+            let rect = CGRect(origin: .zero, size: frame.size)
+            
+            // Make circular clipping path
+            let circlePath = UIBezierPath(ovalIn: rect)
+            circlePath.addClip()
+            
+            // Draw gradient inside circle
+            gradientLayer.render(in: context.cgContext)
+        }
     }
     
 }
