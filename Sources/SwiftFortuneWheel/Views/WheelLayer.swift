@@ -84,7 +84,7 @@ class WheelLayer: CALayer {
         
         var image: UIImage?
         
-        if let colors = preferences?.imageAnchor.gradientColors {
+        if let imageAnchor = preferences?.imageAnchor, let colors = imageAnchor.gradientColors {
             image = gradientImage(colors: colors.map({UIColor(hex: $0)}), frame: CGRect(origin: CGPoint(x: 0, y: 0), size: imageAnchor.size))
         }
         
