@@ -84,7 +84,7 @@ class WheelLayer: CALayer {
         
         var image: UIImage?
         
-        if let imageAnchor = preferences?.imageAnchor, let colors = imageAnchor.gradientColors {
+        if let imageAnchor = preferences?.centerImageAnchor, let colors = imageAnchor.gradientColors {
             image = gradientImage(colors: colors.map({UIColor(hex: $0)}), frame: CGRect(origin: CGPoint(x: 0, y: 0), size: imageAnchor.size))
         }
         
@@ -162,7 +162,8 @@ class WheelLayer: CALayer {
                                      index: index,
                                      radius: radius,
                                      sliceDegree: sliceDegree,
-                                     rotationOffset: rotationOffset)
+                                     rotationOffset: rotationOffset,
+                                     gradientImage: image)
             }
         }
         
